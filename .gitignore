@@ -1,0 +1,10 @@
+**/.bloop/
+.bsp/
+.idea/
+.metals/
+.vscode/
+**/target/
+**/.DS_Store
+**/app-logs/
+**/metals.sbt
+**/chk-point-dir/
