@@ -4,6 +4,10 @@ import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.expr
 
+// 1. Before to start, please delete chk-point-dir/ folder
+// 2. Open a console, and type: nc -lk 9999
+// 3. Execute this program
+// 4. within opened console, start typing
 object L01_WordsCount extends Serializable {
 
   @transient lazy val logger: Logger = Logger.getLogger(getClass.getName)
