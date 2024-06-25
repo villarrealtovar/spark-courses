@@ -10,6 +10,7 @@ val sparkVersion = "3.5.0"
 val sparkDependencies = Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion,
     "org.apache.spark" %% "spark-sql" % sparkVersion,
+    "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion
 )
 
 val testDependencies = Seq(
