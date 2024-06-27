@@ -11,7 +11,7 @@ object L02_FileStream extends Serializable {
 
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
-      .appName("Lesson 03: File Stream")
+      .appName("Lesson 02: File Stream")
       .master("local[3]")
       .config("spark.streaming.stopGracefullyOnShutdown", "true")
       .config("spark.sql.streaming.schemaInference", "true")
