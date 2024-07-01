@@ -13,7 +13,7 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 // 3. create `L08-trades` topic: kafka-topics.sh --create --topic L08-trades --bootstrap-server localhost:9092
 //                                  --replication-factor 1 --partitions 1
 // 4. start kafka producer: kafka-console-producer.sh --topic L08-trades --bootstrap-server localhost:9092
-// 5. Run the `L06_KafkaAvroSink` application
+// 5. Run the `L08_TumblingWindow` application
 object L08_TumblingWindow extends Serializable {
 
   @transient lazy val logger: Logger = Logger.getLogger(getClass.getName)
