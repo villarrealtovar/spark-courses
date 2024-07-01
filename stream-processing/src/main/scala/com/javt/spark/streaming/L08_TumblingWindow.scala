@@ -49,6 +49,7 @@ object L08_TumblingWindow extends Serializable {
       .withColumn("Sell", expr("case when Type == 'SELL' then Amount else 0 end"))
 
     val windowAggDF = tradeDF
+      .withWatermark("CreatedTime", "30 minutes")
       .groupBy(window(col("CreatedTime"), "15 minute"))
       .agg(
         sum("Buy").alias("TotalBuy"),
