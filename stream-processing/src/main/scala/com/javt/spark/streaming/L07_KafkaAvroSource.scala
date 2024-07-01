@@ -53,7 +53,7 @@ object L07_KafkaAvroSource extends Serializable {
       .option("kafka.bootstrap.servers", "localhost:9092")
       .option("topic", "L07-customer-rewards")
       .outputMode("update")
-      .option("checkpointLocation", "chk-point-dir")
+      .option("checkpointLocation", "chk-point-dir/L07")
       .start()
 
     logger.info("L07: Rewards Write Query")
