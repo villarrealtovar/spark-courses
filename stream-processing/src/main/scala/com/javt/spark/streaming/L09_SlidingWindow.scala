@@ -2,17 +2,17 @@ package com.javt.spark.streaming
 
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.Trigger
-import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 
 // Please, before to run this app, be sure:
 // 1. run zookeeper: zookeeper-server.sh
 // 2. run kafka broker: kafka-server-start.sh
-// 3. create `L09-Sensor` topic: kafka-topics.sh --create --topic L09-Sensor --bootstrap-server localhost:9092
+// 3. create `L09-sensor` topic: kafka-topics.sh --create --topic L09-sensor --bootstrap-server localhost:9092
 //                                  --replication-factor 1 --partitions 1
 // 4. start kafka producer: kafka-console-producer.sh --topic L09-sensor --bootstrap-server localhost:9092
+//                                  --property "parse.key=true" --property "key.separator=:"
 // 5. Run the `L09_SlidingWindow` application
 object L09_SlidingWindow extends Serializable {
 
@@ -34,9 +34,12 @@ object L09_SlidingWindow extends Serializable {
     val kafkaSourceDF = spark.readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", "localhost:9092")
-      .option("subscribe", "L09-Sensor")
+      .option("subscribe", "L09-sensor")
       .option("startingOffsets", "earliest")
       .load()
+
+    // kafkaSourceDF.printSchema()
+    // kafkaSourceDF.show()
 
     val valueDF = kafkaSourceDF.select(
       col("key").cast("string").alias("SensorID"),
@@ -58,9 +61,11 @@ object L09_SlidingWindow extends Serializable {
 
     val outputDF = aggDF.select("SensorID", "window.start", "window.end", "MaxReading")
 
-    val windowQuery = outputDF.writeStream
+    // outputDF.show()
+
+     val windowQuery = outputDF.writeStream
       .format("console")
-      .outputMode("append")
+      .outputMode("update")
       .option("checkpointLocation", "chk-point-dir/L09")
       .trigger(Trigger.ProcessingTime("1 minute"))
       .start()
